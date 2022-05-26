@@ -21,12 +21,14 @@ public class OptionalTest01 {
     }
 
 
+    //测试过滤操作
     @Test
     public void test01(){
         Optional<Author> autor = getAutor();
         autor.filter(author -> author.getAge()>88).ifPresent(author -> System.out.println(author.getName()));
     }
 
+    //测试消费操作
     @Test
     public void test02(){
         Optional<Author> autor = getAutor();
@@ -38,6 +40,7 @@ public class OptionalTest01 {
     //一般在get的时候 返回Optional类
     public static Optional<Author> getAutor(){
         Author author = new Author(1L, "liudehua", 38, "歌手", null);
+        //生成Optional类对象
         return Optional.ofNullable(author);
     }
 }
