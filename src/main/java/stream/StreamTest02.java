@@ -5,8 +5,10 @@ import org.junit.Test;
 import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * 学习Stream流的终结操作
@@ -141,6 +143,43 @@ public class StreamTest02 {
         System.out.println(reduce);
 
 
+    }
+
+    /**
+     * stream流对基本数据类型的优化
+     */
+    @Test
+    public void test06(){
+        List<Author> authors = getAuthors();
+        authors.stream()
+                .map(author -> author.getAge())
+                .map(age -> age + 10)
+                .filter(age->age>18)
+                .map(age->age+2)
+                .forEach(System.out::println);
+
+
+        authors.stream()
+                .mapToInt(author -> author.getAge())
+                .map(age -> age + 10)
+                .filter(age->age>18)
+                .map(age->age+2)
+                .forEach(System.out::println);
+    }
+
+
+    /**
+     * 并行流
+     */
+    @Test
+    public void test07(){
+        Stream<Integer> stream = Stream.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        Integer sum = stream.parallel()
+                .peek(num -> System.out.println(num+Thread.currentThread().getName()))
+                .filter(num -> num > 5)
+                .reduce((result, ele) -> result + ele)
+                .get();
+        System.out.println(sum);
     }
 
 
